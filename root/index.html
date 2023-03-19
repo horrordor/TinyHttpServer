@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style type="text/css">
+		body {
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+	</style>
+	<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="container-fluid" style="margin-top:30px;">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<h2 style="text-align:center;">Happy New Year!</h2>
+				<p id="times" style="text-align:right;"></p>
+				<img src="./200.jfif" class="img-rounded"
+					height="70%">
+				<div style="height:10px;"></div>
+				<p style="text-align:center;"> Copyright <span class="glyphicon glyphicon-copyright-mark"
+						aria-hidden="true"></span> &nbsp;2022 &nbsp;</p>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+	
+	<!-- 得到当前页-->
+	<span id="dqPage" hidden="hidden" class="disabled1 current">${page}</span>
+	<!-- js控制的页码显示在这个div中-->
+	<div id="pageBtn" style="width: auto;display:inline-block !important;height: auto;">
+</div>
+
+
+<script type="text/javascript">
+
+//页码显示
+        $(function(){
+		console.log('fuck');
+            
+            //var dqPage = $("#dqPage").text();//得到当前页数
+            //dqPage = parseInt(dqPage);//得到的文本转成int
+            //var pageCount = $("#pageCount").text();//得到总页数
+            //pageCount = parseInt(pageCount);
+			
+			var dqPage  = 5;
+			var pageCount = 100;
+			
+            var i = 1;
+            i = parseInt(i);
+            var item="";
+            var href = "这里是请求地址";
+            if (pageCount <= 5 ) {//总页数小于五页，则加载所有页
+                console.log('马上执行for循环啦');
+                for (i; i <= pageCount; i++) {
+                    if (i == dqPage) {
+                        item += "<span class='disabled'>"+i+"</span>"; 
+                    }else{
+                        item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                    }
+                };
+                $('#pageBtn').append(item);
+                return;
+            }else if (pageCount > 5) {//总页数大于五页，则加载五页
+                if (dqPage < 5) {//当前页小于5，加载1-5页
+				console.log('马上执行for循环啦');
+                    for (i; i <= 5; i++) {
+                        if (i == dqPage) {
+                            item += "<span class='disabled'>"+i+"</span>"; 
+                        }else{
+                            item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                        }
+                    };
+                    if (dqPage <= pageCount-2) {//最后一页追加“...”代表省略的页
+                        item += "<span> . . . </span>";
+                    }
+                    $('#pageBtn').append(item);
+                    return;
+                }else if (dqPage >= 5) {//当前页大于5页
+				console.log('马上执行for循环啦');
+                    for (i; i <= 2; i++) {//1,2页码始终显示
+                        item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                    }
+                    item += "<span> . . . </span>";//2页码后面用...代替部分未显示的页码
+                    if (dqPage+1 == pageCount) {//当前页+1等于总页码
+                        for(i = dqPage-1; i <= pageCount; i++){//“...”后面跟三个页码当前页居中显示
+                            if (i == dqPage) {
+                                item += "<span class='disabled'>"+i+"</span>"; 
+                            }else{
+                                item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                            }
+                        }
+                    }else if (dqPage == pageCount) {//当前页数等于总页数则是最后一页页码显示在最后
+					console.log('马上执行for循环啦');
+                        for(i = dqPage-2; i <= pageCount; i++){//...后面跟三个页码当前页居中显示
+                            if (i == dqPage) {
+                                item += "<span class='disabled'>"+i+"</span>"; 
+                            }else{
+                                item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                            }
+                        }
+                    }else{//当前页小于总页数，则最后一页后面跟...
+					console.log('马上执行for循环啦');
+                        for(i = dqPage-1; i <= dqPage+1; i++){//dqPage+1页后面...
+                            if (i == dqPage) {
+                                item += "<span class='disabled'>"+i+"</span>"; 
+                            }else{
+                                item += "<a href='"+href+i+"' >"+i+"</a>"; 
+                            }
+                        }
+                        item += "<span> . . . </span>";
+                    }
+                    $('#pageBtn').append(item);
+                    return;
+                }
+            }
+            
+            
+        });
+</script>
+
+	<script type="text/javascript">
+		(function () {
+		console.log('fuck?');
+			var myDate = new Date();
+			var year = myDate.getFullYear();
+			var month = myDate.getMonth() + 1;
+			var date = myDate.getDate();
+			var hour = myDate.getHours();
+			var minute = myDate.getMinutes();
+			document.getElementById("times").innerHTML = "Current Time: " + year + "/" + month + "/" + date + "  " + hour + ":" + minute;
+		}());    
+	</script>
+	
+</body>
+<html>
