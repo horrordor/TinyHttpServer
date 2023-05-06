@@ -133,7 +133,11 @@ class HttpRequest(object):
                     self.reject_directly(code='403')
             case ('GET', False):
                 # 未登录用户跳转到登录页面
-                self.static_request(self.LoginHtml)
+                if (os.path.isfile(self.LoginHtml)):
+                    self.static_request(self.LoginHtml)
+                else:
+                    self.create_session(access_ability=True)
+                    self.static_request(ROOT_DIR + self.url)
             case ('GET', True):
                 if self.url.find('?') != -1:
                     # 含有参数的get视为动态请求
